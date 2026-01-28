@@ -1,5 +1,7 @@
 # Consignes
 
+> **Prise en main du projet** : pour l’installation, le lancement et l’utilisation du projet, consultez le [Guide de Prise en Main (GETTING_STARTED.md)](GETTING_STARTED.md).
+
 - Vous êtes développeur front-end : vous devez réaliser les consignes décrites dans le chapitre [Front-end](#Front-end)
 
 - Vous êtes développeur back-end : vous devez réaliser les consignes décrites dans le chapitre [Back-end](#Back-end) (*)
