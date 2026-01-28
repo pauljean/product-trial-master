@@ -1,0 +1,26 @@
+.wishlist-list {
+    .wishlist-item {
+        transition: all 0.2s;
+        
+        &:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+        
+        .product-image-placeholder {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-ground);
+            border-radius: 0.5rem;
+        }
+    }
+}

@@ -1,0 +1,70 @@
+<p-toolbar [style]="{ height: '100px' }">
+    <div class="p-toolbar-group-start">
+        <img src="assets/icons/icon-72x72.png" alt="logo" />
+    </div>
+    <div class="p-toolbar-group-center">
+        {{ title }}
+    </div>
+    <div class="p-toolbar-group-end flex align-items-center gap-2">
+        <p-button 
+            icon="pi pi-heart" 
+            [style]="{ fontSize: '2rem' }"
+            [styleClass]="'p-button-text p-button-plain'"
+            routerLink="/wishlist"
+            [pTooltip]="'Mes favoris'">
+            @if (wishlistItemCount() > 0) {
+                <p-badge [value]="wishlistItemCount()" severity="danger"></p-badge>
+            }
+        </p-button>
+        <p-button 
+            icon="pi pi-shopping-cart" 
+            [style]="{ fontSize: '2rem' }"
+            [styleClass]="'p-button-text p-button-plain'"
+            routerLink="/cart"
+            [pTooltip]="'Panier'">
+            @if (cartItemCount() > 0) {
+                <p-badge [value]="cartItemCount()" severity="danger"></p-badge>
+            }
+        </p-button>
+        @if (isAuthenticated()) {
+            <p-menu 
+                [model]="userMenuItems" 
+                [popup]="true"
+                #userMenu />
+            <p-button 
+                [label]="userEmail() || 'Utilisateur'" 
+                icon="pi pi-user" 
+                severity="secondary"
+                (onClick)="userMenu.toggle($event)" />
+        } @else {
+            <p-button 
+                label="Connexion" 
+                icon="pi pi-sign-in" 
+                severity="success"
+                (onClick)="openLogin()" />
+        }
+    </div>
+</p-toolbar>
+<p-splitter 
+    [panelSizes]="[20, 80]" 
+    [style]="{ height: 'calc(100vh - 100px)' }">
+    <ng-template pTemplate>
+        <div class="w-full">
+            <app-panel-menu />
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <div class="w-full app-content">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-template>
+</p-splitter>
+
+<p-dialog 
+    [(visible)]="showLoginDialog"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [closable]="true"
+    (onHide)="closeLogin()">
+    <app-login (closeDialog)="closeLogin()"></app-login>
+</p-dialog>

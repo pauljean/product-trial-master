@@ -1,0 +1,74 @@
+<p-toast></p-toast>
+
+<h1 class="text-center mb-4">Contact</h1>
+
+@if (isSubmitted && contactForm.valid) {
+    <div class="text-center p-4">
+        <p-message severity="success" text="Demande de contact envoyée avec succès"></p-message>
+        <p-button label="Envoyer un autre message" (onClick)="onReset()" class="mt-3" />
+    </div>
+} @else {
+    <div class="flex justify-content-center">
+        <div class="surface-card p-4 border-round shadow-2" style="width: 100%; max-width: 600px;">
+            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                <div class="field mb-4">
+                    <label for="email" class="block mb-2 font-medium">
+                        Email <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        pInputText 
+                        id="email" 
+                        formControlName="email"
+                        type="email"
+                        class="w-full"
+                        [class.ng-invalid]="isSubmitted && email?.invalid" />
+                    @if (isSubmitted && email?.hasError('required')) {
+                        <small class="p-error block mt-1">L'email est obligatoire</small>
+                    }
+                    @if (isSubmitted && email?.hasError('email')) {
+                        <small class="p-error block mt-1">L'email n'est pas valide</small>
+                    }
+                </div>
+
+                <div class="field mb-4">
+                    <label for="message" class="block mb-2 font-medium">
+                        Message <span class="text-red-500">*</span>
+                    </label>
+                    <textarea 
+                        pInputTextarea 
+                        id="message"
+                        formControlName="message"
+                        rows="5"
+                        class="w-full"
+                        [class.ng-invalid]="(message?.invalid && (message?.touched || message?.dirty)) || (isSubmitted && message?.invalid)"></textarea>
+                    <div class="flex justify-content-between mt-1">
+                        <div>
+                            @if ((message?.hasError('required') && (message?.touched || message?.dirty)) || (isSubmitted && message?.hasError('required'))) {
+                                <small class="p-error">Le message est obligatoire</small>
+                            }
+                            @if ((message?.hasError('maxlength') && (message?.touched || message?.dirty)) || (isSubmitted && message?.hasError('maxlength'))) {
+                                <small class="p-error">Le message ne doit pas dépasser {{ maxMessageLength }} caractères</small>
+                            }
+                        </div>
+                        <small [class.text-red-500]="remainingChars < 20">
+                            {{ remainingChars }} caractères restants
+                        </small>
+                    </div>
+                </div>
+
+                <div class="flex justify-content-end gap-2">
+                    <p-button 
+                        type="button" 
+                        label="Réinitialiser" 
+                        severity="secondary"
+                        (onClick)="onReset()" />
+                    <p-button 
+                        type="submit" 
+                        label="Envoyer" 
+                        severity="primary"
+                        [disabled]="contactForm.invalid" />
+                </div>
+            </form>
+        </div>
+    </div>
+}

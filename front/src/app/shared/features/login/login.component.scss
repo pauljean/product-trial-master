@@ -1,0 +1,59 @@
+:host ::ng-deep {
+  // Solution globale : forcer le positionnement de toutes les icônes dans p-password avec p-input-icon-right
+  .p-password.p-input-icon-right {
+    position: relative !important;
+
+    .p-inputwrapper {
+      position: relative !important;
+      width: 100%;
+
+      // Input avec padding pour l'icône
+      input {
+        padding-right: 2.5rem !important;
+      }
+    }
+
+    // Règle universelle : TOUT élément qui n'est pas l'input ni le panel doit être positionné à droite
+    .p-inputwrapper > *:not(input):not(.p-password-panel) {
+      position: absolute !important;
+      right: 0.75rem !important;
+      left: auto !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      cursor: pointer;
+      z-index: 10;
+      margin: 0 !important;
+      pointer-events: auto !important;
+    }
+
+    // Cibler spécifiquement les ng-container et leurs enfants
+    .p-inputwrapper > ng-container {
+      position: absolute !important;
+      right: 0.75rem !important;
+      left: auto !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      z-index: 10;
+      pointer-events: none !important;
+
+      > * {
+        pointer-events: auto !important;
+        cursor: pointer;
+      }
+    }
+
+    // Cibler les composants d'icônes PrimeNG (EyeIcon, EyeSlashIcon)
+    .p-inputwrapper > EyeIcon,
+    .p-inputwrapper > EyeSlashIcon,
+    .p-inputwrapper > [data-pc-section="showIcon"],
+    .p-inputwrapper > [data-pc-section="hideIcon"] {
+      position: absolute !important;
+      right: 0.75rem !important;
+      left: auto !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      cursor: pointer;
+      z-index: 10;
+    }
+  }
+}

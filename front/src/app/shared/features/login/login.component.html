@@ -1,0 +1,132 @@
+<p-toast></p-toast>
+
+<div class="flex justify-content-center align-items-center" style="min-height: 400px;">
+    <div class="surface-card p-4 border-round shadow-2" style="width: 100%; max-width: 450px;">
+        <div class="text-center mb-4">
+            <i class="pi pi-user text-4xl text-primary mb-3"></i>
+            <h2 class="m-0">{{ isRegisterMode ? 'Créer un compte' : 'Connexion' }}</h2>
+            <p class="text-secondary text-sm mt-2">
+                {{ isRegisterMode ? 'Remplissez le formulaire pour créer votre compte' : 'Connectez-vous pour accéder à votre compte' }}
+            </p>
+        </div>
+
+        <p-divider />
+
+        <form [formGroup]="currentForm" (ngSubmit)="onSubmit()" class="mt-4">
+            @if (isRegisterMode) {
+                <div class="field mb-3">
+                    <label for="username" class="block mb-2 font-medium">
+                        <i class="pi pi-user mr-2"></i>Nom d'utilisateur *
+                    </label>
+                    <input
+                        pInputText
+                        id="username"
+                        formControlName="username"
+                        placeholder="Entrez votre nom d'utilisateur"
+                        class="w-full"
+                        [class.ng-invalid]="username?.invalid && (username?.touched || username?.dirty)" />
+                    @if (username?.hasError('required') && (username?.touched || username?.dirty)) {
+                        <small class="p-error block mt-1">Le nom d'utilisateur est obligatoire</small>
+                    }
+                    @if (username?.hasError('minlength') && (username?.touched || username?.dirty)) {
+                        <small class="p-error block mt-1">Le nom d'utilisateur doit contenir au moins 3 caractères</small>
+                    }
+                </div>
+
+                <div class="field mb-3">
+                    <label for="firstname" class="block mb-2 font-medium">
+                        <i class="pi pi-id-card mr-2"></i>Prénom *
+                    </label>
+                    <input
+                        pInputText
+                        id="firstname"
+                        formControlName="firstname"
+                        placeholder="Entrez votre prénom"
+                        class="w-full"
+                        [class.ng-invalid]="firstname?.invalid && (firstname?.touched || firstname?.dirty)" />
+                    @if (firstname?.hasError('required') && (firstname?.touched || firstname?.dirty)) {
+                        <small class="p-error block mt-1">Le prénom est obligatoire</small>
+                    }
+                    @if (firstname?.hasError('minlength') && (firstname?.touched || firstname?.dirty)) {
+                        <small class="p-error block mt-1">Le prénom doit contenir au moins 2 caractères</small>
+                    }
+                </div>
+            }
+
+            <div class="field mb-3">
+                <label for="email" class="block mb-2 font-medium">
+                    <i class="pi pi-envelope mr-2"></i>Email *
+                </label>
+                <input
+                    pInputText
+                    id="email"
+                    formControlName="email"
+                    type="email"
+                    placeholder="exemple@email.com"
+                    class="w-full"
+                    [class.ng-invalid]="email?.invalid && (email?.touched || email?.dirty)" />
+                @if (email?.hasError('required') && (email?.touched || email?.dirty)) {
+                    <small class="p-error block mt-1">L'email est obligatoire</small>
+                }
+                @if (email?.hasError('email') && (email?.touched || email?.dirty)) {
+                    <small class="p-error block mt-1">L'email n'est pas valide</small>
+                }
+            </div>
+
+            <div class="field mb-4">
+                <label for="password" class="block mb-2 font-medium">
+                    <i class="pi pi-lock mr-2"></i>Mot de passe *
+                </label>
+                <p-password
+                    id="password"
+                    formControlName="password"
+                    [feedback]="isRegisterMode"
+                    [weakLabel]="'Faible'"
+                    [mediumLabel]="'Moyen'"
+                    [strongLabel]="'Fort'"
+                    [promptLabel]="'Entrez un mot de passe'"
+                    placeholder="Entrez votre mot de passe"
+                    [toggleMask]="true"
+                    styleClass="w-full p-input-icon-right"
+                    [inputStyleClass]="'w-full'"
+                    [class.ng-invalid]="password?.invalid && (password?.touched || password?.dirty)" />
+                @if (password?.hasError('required') && (password?.touched || password?.dirty)) {
+                    <small class="p-error block mt-1">Le mot de passe est obligatoire</small>
+                }
+                @if (password?.hasError('minlength') && (password?.touched || password?.dirty)) {
+                    <small class="p-error block mt-1">Le mot de passe doit contenir au moins 6 caractères</small>
+                }
+                @if (isRegisterMode && password?.value && password?.value.length >= 6) {
+                    <small class="block mt-1">
+                        <i class="pi pi-info-circle mr-1"></i>
+                        <span [class.text-green-500]="getPasswordStrength() === 'strong'"
+                              [class.text-yellow-500]="getPasswordStrength() === 'medium'"
+                              [class.text-orange-500]="getPasswordStrength() === 'weak'">
+                            Force: {{ getPasswordStrength() === 'strong' ? 'Forte' : getPasswordStrength() === 'medium' ? 'Moyenne' : 'Faible' }}
+                        </span>
+                    </small>
+                }
+            </div>
+
+            <div class="flex flex-column gap-2 mt-4">
+                <p-button
+                    type="submit"
+                    [label]="isRegisterMode ? 'Créer le compte' : 'Se connecter'"
+                    [disabled]="currentForm.invalid"
+                    severity="success"
+                    [icon]="isRegisterMode ? 'pi pi-user-plus' : 'pi pi-sign-in'"
+                    [style]="{ width: '100%' }" />
+
+                <p-divider />
+
+                <p-button
+                    type="button"
+                    [label]="isRegisterMode ? 'Déjà un compte ? Se connecter' : 'Pas de compte ? Créer un compte'"
+                    severity="secondary"
+                    [icon]="isRegisterMode ? 'pi pi-sign-in' : 'pi pi-user-plus'"
+                    (onClick)="toggleMode()"
+                    [style]="{ width: '100%' }" />
+            </div>
+        </form>
+    </div>
+</div>

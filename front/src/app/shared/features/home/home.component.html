@@ -1,0 +1,66 @@
+<p-toast></p-toast>
+
+<div class="mb-4">
+    <h1 class="text-center mb-4">Bienvenue sur {{ appTitle }}</h1>
+    
+    <div class="flex gap-3 mb-3 flex-wrap">
+        <div class="flex-1" style="min-width: 200px;">
+            <span class="p-input-icon-left w-full">
+                <i class="pi pi-search"></i>
+                <input 
+                    pInputText 
+                    type="text" 
+                    placeholder="Rechercher..." 
+                    [(ngModel)]="searchText"
+                    (input)="onSearchInput()"
+                    class="w-full" />
+            </span>
+        </div>
+        <div style="min-width: 200px;">
+            <p-dropdown 
+                [options]="categories" 
+                [(ngModel)]="selectedCategory"
+                (onChange)="onCategoryChange()"
+                optionLabel="label" 
+                optionValue="value"
+                placeholder="Catégorie"
+                class="w-full" />
+        </div>
+    </div>
+</div>
+
+<div class="grid">
+    @for (product of paginatedProducts(); track product.id) {
+        <div class="col-12 md:col-6 lg:col-4">
+            <app-product-item 
+                [product]="product"
+                [showQuantityControl]="false"
+                (addToCart)="onAddToCart($event)"
+                (addToWishlist)="onAddToWishlist($event)"
+                (removeFromWishlist)="onRemoveFromWishlist($event)"
+                [isInWishlist]="isInWishlist(product.id)" />
+        </div>
+    }
+    @if (paginatedProducts().length === 0) {
+        <div class="col-12 text-center p-4">
+            <p class="text-secondary">Aucun produit trouvé</p>
+        </div>
+    }
+</div>
+
+@if (loading()) {
+    <div class="col-12 text-center p-4">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+        <p class="text-secondary mt-2">Chargement...</p>
+    </div>
+}
+
+@if (totalRecords() > 0 && !loading()) {
+    <p-paginator 
+        [first]="first()"
+        [rows]="rows()"
+        [totalRecords]="totalRecords()"
+        (onPageChange)="onPageChange($event)"
+        [rowsPerPageOptions]="[9, 18, 27]"
+        class="mt-4 mb-4" />
+}

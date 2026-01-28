@@ -1,0 +1,43 @@
+.cart-list {
+    .cart-item {
+        transition: all 0.2s;
+        
+        &:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+:host ::ng-deep {
+    .cart-quantity-input {
+        .p-inputnumber {
+            height: 2.5rem;
+            width: 6rem;
+            
+            .p-inputnumber-input {
+                height: 2.5rem;
+                padding: 0.25rem 2rem 0.25rem 0.5rem;
+                font-size: 0.875rem;
+            }
+            
+            .p-inputnumber-button {
+                width: 2rem;
+                height: 1.25rem;
+                
+                &.p-inputnumber-button-up {
+                    height: 1.25rem;
+                    border-top-right-radius: 0.25rem;
+                }
+                
+                &.p-inputnumber-button-down {
+                    height: 1.25rem;
+                    border-bottom-right-radius: 0.25rem;
+                }
+                
+                .p-button-icon {
+                    font-size: 0.75rem;
+                }
+            }
+        }
+    }
+}

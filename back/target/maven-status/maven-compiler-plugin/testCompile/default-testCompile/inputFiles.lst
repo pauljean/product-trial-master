@@ -1,0 +1,16 @@
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\integration\WishlistControllerIntegrationTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\integration\CartControllerIntegrationTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\integration\ContactControllerIntegrationTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\mapper\CartItemMapperTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\service\CartServiceTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\mapper\WishlistItemMapperTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\security\SecurityUtilsTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\service\AuthServiceTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\integration\AuthControllerIntegrationTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\security\JwtUtilTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\util\TestUtils.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\integration\ProductControllerIntegrationTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\mapper\ProductMapperTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\service\ProductServiceTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\service\WishlistServiceTest.java
+C:\0-workspace\product-trial-master\back\src\test\java\com\alten\producttrial\exception\GlobalExceptionHandlerTest.java

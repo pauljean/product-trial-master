@@ -1,0 +1,264 @@
+# ============================================
+# .gitignore - Product Trial Project
+# Couvre Frontend (Angular) et Backend (Spring Boot)
+# ============================================
+
+# ============================================
+# BACKEND - Java / Spring Boot / Maven
+# ============================================
+
+# Maven
+back/target/
+back/pom.xml.tag
+back/pom.xml.releaseBackup
+back/pom.xml.versionsBackup
+back/pom.xml.next
+back/release.properties
+back/dependency-reduced-pom.xml
+back/buildNumber.properties
+back/.mvn/timing.properties
+back/.mvn/wrapper/maven-wrapper.jar
+
+# Compiled class files
+back/**/*.class
+back/**/*.jar
+back/**/*.war
+back/**/*.ear
+back/**/*.nar
+back/**/*.zip
+back/**/*.tar.gz
+back/**/*.rar
+
+# Logs
+back/**/*.log
+back/logs/
+back/*.log
+
+# Package Files
+back/*.jar
+back/*.war
+back/*.ear
+back/*.zip
+back/*.tar.gz
+back/*.rar
+
+# H2 Database files
+back/*.mv.db
+back/*.trace.db
+back/*.lock.db
+back/*.h2.db
+
+# Spring Boot
+back/.springBeans
+back/replay_pid
+
+# ============================================
+# FRONTEND - Angular / Node.js
+# ============================================
+
+# Compiled output
+front/dist/
+front/tmp/
+front/out-tsc/
+front/.angular/
+
+# Dependencies
+front/node_modules/
+front/package-lock.json
+front/yarn.lock
+
+# Testing
+front/coverage/
+front/.karma/
+front/.nyc_output/
+
+# IDEs and editors
+front/.idea/
+front/.vscode/
+!front/.vscode/settings.json
+!front/.vscode/tasks.json
+!front/.vscode/launch.json
+!front/.vscode/extensions.json
+front/.history/
+
+# Misc
+front/.sass-cache/
+front/connect.lock
+front/libpeerconnection.log
+front/npm-debug.log
+front/yarn-error.log
+front/testem.log
+front/typings/
+
+# Cypress (si utilisé)
+front/cypress/screenshots/
+front/cypress/videos/
+front/cypress/downloads/
+front/cypress/report/
+
+# ============================================
+# IDEs et Éditeurs (Général)
+# ============================================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+*.launch
+*.pydevproject
+.metadata
+.recommenders
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ============================================
+# Système d'exploitation
+# ============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# Logs et fichiers temporaires
+# ============================================
+
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+*.bak
+*.backup
+*.cache
+
+# ============================================
+# Docker
+# ============================================
+
+# Docker volumes (si utilisés)
+docker-data/
+
+# ============================================
+# Environnement et Configuration
+# ============================================
+
+# Fichiers d'environnement (peuvent contenir des secrets)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Configuration locale
+application-local.properties
+application-local.yml
+application-dev.properties
+application-dev.yml
+
+# ============================================
+# Build et Artifacts
+# ============================================
+
+# Build outputs
+build/
+dist/
+target/
+out/
+
+# ============================================
+# Documentation générée
+# ============================================
+
+# Documentation générée automatiquement
+docs/generated/
+*.generated.*
+
+# ============================================
+# Tests et Rapports
+# ============================================
+
+# Rapports de test
+test-results/
+test-reports/
+*.test-report
+*.coverage
+
+# JaCoCo (couverture de code Java)
+back/target/site/jacoco/
+
+# ============================================
+# Autres
+# ============================================
+
+# Fichiers de sauvegarde
+*.orig
+*.rej
+*.patch
+
+# Archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.rar
+*.tar
+*.zip
+
+# Fichiers de lock (selon le gestionnaire de paquets)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

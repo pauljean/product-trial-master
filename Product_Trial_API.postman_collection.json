@@ -1,0 +1,1026 @@
+{
+	"info": {
+		"_postman_id": "product-trial-api-collection",
+		"name": "Product Trial API",
+		"description": "Collection complète pour tester l'API Product Trial avec authentification JWT, CRUD produits, pagination et filtrage.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentification",
+			"item": [
+				{
+					"name": "Login - Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const jsonData = pm.response.json();",
+									"    pm.environment.set(\"token\", jsonData.token);",
+									"    pm.environment.set(\"userEmail\", jsonData.email || \"admin@admin.com\");",
+									"    console.log(\"Token sauvegardé dans la variable d'environnement\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@admin.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"token"
+							]
+						},
+						"description": "Authentification pour obtenir un token JWT. Le token est automatiquement sauvegardé dans la variable d'environnement."
+					},
+					"response": []
+				},
+				{
+					"name": "Register - Nouvel utilisateur",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"firstname\": \"Test\",\n  \"email\": \"test@example.com\",\n  \"password\": \"test123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/account",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						},
+						"description": "Créer un nouveau compte utilisateur"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints d'authentification"
+		},
+		{
+			"name": "Produits - Lecture (Public)",
+			"item": [
+				{
+					"name": "Get All Products (sans pagination)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Récupère tous les produits sans pagination. Retourne un tableau simple."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products (avec pagination)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products?page=0&size=10&sortBy=name&sortDir=ASC",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Numéro de page (0-indexed)"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Taille de la page"
+								},
+								{
+									"key": "sortBy",
+									"value": "name",
+									"description": "Champ de tri"
+								},
+								{
+									"key": "sortDir",
+									"value": "ASC",
+									"description": "Direction du tri (ASC ou DESC)"
+								}
+							]
+						},
+						"description": "Récupère les produits avec pagination. Retourne un objet Page avec content, totalElements, etc."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products - Filtrer par catégorie",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products?page=0&size=10&category=Electronics",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "category",
+									"value": "Electronics",
+									"description": "Filtrer par catégorie"
+								}
+							]
+						},
+						"description": "Récupère les produits filtrés par catégorie"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products - Recherche textuelle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products?page=0&size=10&search=test",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": "test",
+									"description": "Recherche dans nom, description, code"
+								}
+							]
+						},
+						"description": "Recherche textuelle dans les produits (nom, description, code)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products - Filtres combinés",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products?page=0&size=10&category=Electronics&search=test&sortBy=price&sortDir=DESC",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "category",
+									"value": "Electronics"
+								},
+								{
+									"key": "search",
+									"value": "test"
+								},
+								{
+									"key": "sortBy",
+									"value": "price"
+								},
+								{
+									"key": "sortDir",
+									"value": "DESC"
+								}
+							]
+						},
+						"description": "Exemple avec tous les filtres combinés"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						},
+						"description": "Récupère un produit par son ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID - Not Found",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"999"
+							]
+						},
+						"description": "Test d'un produit inexistant (devrait retourner 404)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints publics de lecture des produits"
+		},
+		{
+			"name": "Produits - CRUD (Admin)",
+			"item": [
+				{
+					"name": "Create Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response has product data\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('code');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"NEW-001\",\n  \"name\": \"Nouveau Produit\",\n  \"description\": \"Description du nouveau produit\",\n  \"image\": \"https://example.com/image.jpg\",\n  \"category\": \"Electronics\",\n  \"price\": 99.99,\n  \"quantity\": 10,\n  \"internalReference\": \"REF-001\",\n  \"inventoryStatus\": \"INSTOCK\",\n  \"rating\": 4.5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Créer un nouveau produit. Nécessite un token admin."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Product is updated\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql('Produit Modifié');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"UPDATED-001\",\n  \"name\": \"Produit Modifié\",\n  \"description\": \"Description mise à jour\",\n  \"category\": \"Electronics\",\n  \"price\": 149.99,\n  \"quantity\": 5,\n  \"inventoryStatus\": \"LOWSTOCK\",\n  \"rating\": 4.8\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						},
+						"description": "Modifier un produit existant. Nécessite un token admin."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						},
+						"description": "Supprimer un produit. Nécessite un token admin."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints CRUD nécessitant une authentification admin"
+		},
+		{
+			"name": "Tests de validation",
+			"item": [
+				{
+					"name": "Create Product - Données invalides",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response has validation errors\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('errors');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Produit sans code\",\n  \"price\": -10\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Test de validation : code manquant et prix négatif. Devrait retourner 400 avec les erreurs."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product - Code dupliqué",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test(\"Response indicates duplicate\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.include('already exists');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"TEST-001\",\n  \"name\": \"Produit dupliqué\",\n  \"category\": \"Electronics\",\n  \"price\": 99.99,\n  \"quantity\": 10,\n  \"inventoryStatus\": \"INSTOCK\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Test de création avec un code déjà existant. Devrait retourner 409 Conflict."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product - Sans authentification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"TEST-002\",\n  \"name\": \"Test\",\n  \"category\": \"Electronics\",\n  \"price\": 99.99,\n  \"quantity\": 10,\n  \"inventoryStatus\": \"INSTOCK\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Test d'accès non autorisé. Devrait retourner 403 Forbidden."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product - Produit inexistant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"UPDATED-999\",\n  \"name\": \"Produit Inexistant\",\n  \"category\": \"Electronics\",\n  \"price\": 99.99,\n  \"quantity\": 10,\n  \"inventoryStatus\": \"INSTOCK\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"999"
+							]
+						},
+						"description": "Test de mise à jour d'un produit inexistant. Devrait retourner 404 Not Found."
+					},
+					"response": []
+				}
+			],
+			"description": "Tests des cas d'erreur et de validation"
+		},
+		{
+			"name": "Panier",
+			"item": [
+				{
+					"name": "Get Cart Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cart",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cart"
+							]
+						},
+						"description": "Récupère les articles du panier de l'utilisateur connecté"
+					},
+					"response": []
+				},
+				{
+					"name": "Add to Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": 1,\n  \"quantity\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cart",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cart"
+							]
+						},
+						"description": "Ajouter un produit au panier"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart Item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cart/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"1"
+							]
+						},
+						"description": "Mettre à jour la quantité d'un article dans le panier"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cart/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"1"
+							]
+						},
+						"description": "Retirer un article du panier"
+					},
+					"response": []
+				},
+				{
+					"name": "Clear Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cart",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cart"
+							]
+						},
+						"description": "Vider complètement le panier"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints pour la gestion du panier"
+		},
+		{
+			"name": "Favoris",
+			"item": [
+				{
+					"name": "Get Wishlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/wishlist",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wishlist"
+							]
+						},
+						"description": "Récupère la liste des favoris de l'utilisateur connecté"
+					},
+					"response": []
+				},
+				{
+					"name": "Add to Wishlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/wishlist",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wishlist"
+							]
+						},
+						"description": "Ajouter un produit aux favoris"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Wishlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/wishlist/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"wishlist",
+								"1"
+							]
+						},
+						"description": "Retirer un produit des favoris"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints pour la gestion des favoris"
+		},
+		{
+			"name": "Contact",
+			"item": [
+				{
+					"name": "Send Contact Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"subject\": \"Question\",\n  \"message\": \"J'ai une question sur vos produits.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/contact",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"contact"
+							]
+						},
+						"description": "Envoyer un message de contact"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoint pour le formulaire de contact"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userEmail",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
